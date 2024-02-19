@@ -66,7 +66,8 @@ Route::prefix('admin')
         Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('user', App\Http\Controllers\Admin\UserController::class);
         Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
-        Route::resource('product-gallery', App\Http\COntrollers\Admin\ProductGalleryController::class);
+        Route::resource('product-gallery', App\Http\Controllers\Admin\ProductGalleryController::class);
+        Route::resource('transaction', App\Http\Controllers\Admin\TransactionController::class);
     });
 
 Auth::routes();

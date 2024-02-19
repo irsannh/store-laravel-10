@@ -10,6 +10,7 @@ use Exception;
 
 use Midtrans\SNap;
 use Midtrans\Config;
+use Midtrans\Notification;
 
 use Auth;
 
@@ -81,6 +82,49 @@ class CheckoutController extends Controller
     }
 
     public function callback(Request $request) {
+        Config::$serverKey = config('service.midtrans.serverKey');
+        Config::$isProduction = config('service.midtrans.isProduction');
+        Config::$isSanitized = config('service.midtrans.isSanitized');
+        Config::$is3ds = config('service.midtrans.is3ds');
 
+        $notification = new Notification();
+
+        $status = $notification->transaction_status;
+        $type = $notification->payment_type;
+        $fraud = $notification->fraud_status;
+        $order_id = $notification->order_id;
+
+        $transaction = Transaction::findOrFail($order_id);
+
+        if($status == 'capture') {
+            if($type == 'credit_card') {
+                if($fraud == 'challenge') {
+                    $transaction->status = 'PENDING';
+                } else {
+                    $transaction->status = 'SUCCESS';
+                }
+            }
+        }
+        else if($status == 'settlement') {
+            $transaction->status = 'SUCCESS';
+        }
+
+        else if($transaction == 'pending') {
+            $transaction->status = 'PENDING';
+        }
+
+        else if($transaction == 'deny') {
+            $transaction->status = 'CANCELLED';
+        }
+
+        else if($transaction == 'expire') {
+            $transaction->status = 'CANCELLED';
+        }
+
+        else if($transaction == 'cancel') {
+            $transaction->status = 'CANCELLED';
+        }
+
+        $transaction->save();
     }
 }
