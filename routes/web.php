@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::post('/checkout', [App\Http\Controllers\CheckoutController::class, 'process'])->name('checkout');
     
+    Route::get('/checkout/success', [App\Http\Controllers\SuccessController::class, 'index'])->name('checkout-success');
+
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/products', [App\Http\Controllers\DashboardProductController::class, 'index'])->name('dashboard-product');
     Route::get('/dashboard/products/create', [App\Http\Controllers\DashboardProductController::class, 'create'])->name('dashboard-product-create');
@@ -45,8 +47,6 @@ Route::group(['middleware' => ['auth']], function() {
     
     Route::post('/dashboard/products/gallery/upload', [App\Http\Controllers\DashboardProductController::class, 'uploadGallery'])->name('dashboard-product-gallery-upload');
     Route::get('/dashboard/products/gallery/delete/{id}', [App\Http\Controllers\DashboardProductController::class, 'deleteGallery'])->name('dashboard-product-gallery-delete');
-
-
 
     Route::get('/dashboard/transactions', [App\Http\Controllers\DashboardTransactionController::class, 'index'])->name('dashboard-transaction');
     Route::get('/dashboard/transactions/{id}', [App\Http\Controllers\DashboardTransactionController::class, 'details'])->name('dashboard-transaction-details');

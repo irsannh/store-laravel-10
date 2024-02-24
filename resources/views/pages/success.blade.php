@@ -17,10 +17,10 @@
                 menginformasikan resi secept mungkin!
               </p>
               <div>
-                <a href="/dashboard.html" class="btn btn-success w-50 mt-4"
+                <a href="{{ route('dashboard') }}" class="btn btn-success w-50 mt-4"
                   >My Dashboard</a
                 >
-                <a href="/index.html" class="btn btn-signup w-50 mt-2"
+                <a href="{{ route('home') }}" class="btn btn-signup w-50 mt-2"
                   >Go To Shopping</a
                 >
               </div>
